@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IFRS 16 Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; background-color: #f4f4f9; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        input { margin: 10px 0; padding: 8px; width: 100%; box-sizing: border-box; }
+        button { background-color: #007bff; color: white; padding: 10px; border: none; cursor: pointer; width: 100%; font-size: 16px; }
+        button:hover { background-color: #0056b3; }
+        h2 { color: #333; }
+        #result { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IFRS 16 Lease Liability Calculator</h1>
+        <label>Annual Lease Payment ($):</label>
+        <input type="number" id="payment" value="10000">
+        
+        <label>Lease Term (Years):</label>
+        <input type="number" id="years" value="5">
+        
+        <label>Discount Rate (Decimal, e.g., 0.05 for 5%):</label>
+        <input type="number" step="0.01" id="rate" value="0.05">
+        
+        <button onclick="calculate()">Calculate Liability</button>
+        
+        <h2 id="result">Liability: $0.00</h2>
+    </div>
+
+    <script>
+        async function calculate() {
+            const payment = document.getElementById('payment').value;
+            const years = document.getElementById('years').value;
+            const rate = document.getElementById('rate').value;
+            
+            const response = await fetch(`/calculate-ifrs16?lease_payment=${payment}&years=${years}&discount_rate=${rate}`);
+            const data = await response.json();
+            
+            document.getElementById('result').innerText = `Liability: $${data.lease_liability.toLocaleString()}`;
+        }
+    </script>
+</body>
+</html>
